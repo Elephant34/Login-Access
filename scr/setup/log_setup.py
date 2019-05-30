@@ -39,7 +39,7 @@ def get_log_limmit():
 
     while not valid:
         log_limmit = str(
-            input("Please enter the number of logs you wish to store(0 [Unlimited])"))
+            input("Please enter the number of logs you wish to store(0 [Unlimited]): "))
 
         valid = verify_log_limmit(log_limmit)
 
@@ -66,7 +66,7 @@ def verify_log_limmit(log_limmit):
             validity = True
         except Illegal_Word:
             # text cannot be converted into a string
-            pass
+            return validity
 
     # Ensures the number isn't negetive
     if log_limmit < 0:

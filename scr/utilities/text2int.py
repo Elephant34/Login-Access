@@ -8,7 +8,7 @@ class Illegal_Word(Exception):  # pylint: disable=invalid-name
     Custom exception for invalid words
     '''
 
-    def __init__(self, message):  # pylint: disable=useless-super-delegation
+    def __init__(self, message=""):  # pylint: disable=useless-super-delegation
 
         # Calls the Exceptions initialization method
         super().__init__(message)
