@@ -5,7 +5,7 @@ A hashing system using argon2
 try:
     from argon2 import PasswordHasher, exceptions
 except ImportError as _e:
-    from scr.utilities.hashing.argon2 import PasswordHasher, exceptions  # pylint: disable=unresolved-import
+    from scr.utilities.hashing.argon2 import PasswordHasher, exceptions
 # imports the inscure hashing modual
 import hashlib as h
 # Allows for system encoding to be captured
