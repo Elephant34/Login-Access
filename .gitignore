@@ -2,3 +2,4 @@ notes.txt
 *.log
 *.pyc
 __pychache__
+.vscode
