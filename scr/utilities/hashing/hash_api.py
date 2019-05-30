@@ -28,7 +28,7 @@ class Hash:
 
         return
 
-    def hash_method(self, text, secure=True):
+    def hash_text(self, text, secure=True):
         '''
         Always use secure where it works. Only use not where there's no choice
         '''
@@ -51,7 +51,7 @@ class Hash:
 
         passed = False
 
-        if str(self.hash_method(text, secure=False)) == given_hash:
+        if str(self.hash_text(text, secure=False)) == given_hash:
             passed = True
 
         try:
@@ -68,7 +68,7 @@ def run():
     '''
     hash_type = Hash()
     while True:
-        print(hash_type.hash_method(input("Please enter text: ")))
+        print(hash_type.hash_text(input("Please enter text: ")))
         print(hash_type.verify(input("Please re-enter text: "),
                                input("Please enter hash: ")))
 

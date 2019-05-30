@@ -1,2 +1,4 @@
 notes.txt
 *.log
+*.pyc
+__pychache__
