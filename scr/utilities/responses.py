@@ -1,6 +1,32 @@
 '''
-Converts a text writen number into an integer
+Stores responses and response methods
 '''
+
+YES_RESPONSES = [
+    "yes",
+    "yea",
+    "of course",
+    "why not",
+    "k",
+    "kk",
+    "sure",
+    "y",
+    "yeah",
+    "ok",
+    "okay",
+    "fine",
+    "i guess",
+    "yed",
+    "yew",
+    "affirmative",
+    "positive",
+    "certain",
+    "i'm positive",
+    "i'm certain"
+    "im positive",
+    "im certain",
+    "1"
+]
 
 
 class Illegal_Word(Exception):  # pylint: disable=invalid-name
@@ -20,6 +46,7 @@ def text2int(textnum, numwords=None):
 
     Credit to stackoverflow user: https://stackoverflow.com/users/44743/recursive
     '''
+    textnum = textnum.lower()
     if not numwords:
         numwords = {}
         units = [

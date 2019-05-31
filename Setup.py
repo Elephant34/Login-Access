@@ -25,7 +25,7 @@ if __name__ == "__main__":
     log_setup.log_setup()
 
     SETTING_PATH = str(
-        input("Please enter the location to save setting files: (./settings)"))
+        input("Please enter the location to save setting files: (./settings): "))
 
     OWNER_NAME = HASHING.hash_text(
         input("Please enter the owner name: "), secure=False)
