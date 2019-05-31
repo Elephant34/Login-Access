@@ -1,8 +1,12 @@
 '''
 Sets up the logging files and log paths
 '''
+# The main logging libary
+import logging
 # Allows for path manipulation
 import pathlib
+# gets the current datetime string
+from datetime import datetime
 # Converts writen numbers into integers
 from scr.utilities.responses import text2int, Illegal_Word, YES_RESPONSES
 
@@ -20,6 +24,28 @@ def log_setup():
 
         confirmed = confirm_inputs(log_path, log_limmit)
 
+    (log_path / "log_limmit.txt").write_text(str(log_limmit))
+
+    print((log_path / "log_limmit.txt").read_text())
+
+    logging_quick_setup(log_path)
+
+
+def logging_quick_setup(log_path):
+    '''
+    Quickly sets up the log file when given the log path
+    '''
+
+    log_name = "{file_name}.log".format(
+        file_name=str(datetime.now())[:-7].replace(":", "-"))
+
+    # Sets up logging configurations
+    logging.basicConfig(filename=log_path / log_name,
+                        format='%(asctime)s:%(module)s:\n%(levelname)s:%(message)s\n',
+                        level=logging.INFO)
+
+    logging.info("Log Setup Successful")
+
 
 def confirm_inputs(log_path, log_limmit):
     '''
@@ -28,6 +54,8 @@ def confirm_inputs(log_path, log_limmit):
     if str(input("Are you sure you wish for {limmit} log files to be sotred in {path}: ".format(
             limmit=log_limmit, path=log_path))).lower() in YES_RESPONSES:
         return True
+
+    print("Please enter your new inputs:")
 
     return False
 

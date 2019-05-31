@@ -1,6 +1,8 @@
 '''
 This sets up the program for the user
 '''
+# Allows for logging of events
+import logging
 # Allows for manipulation of paths
 import pathlib
 # Allows for hashing of owners username and password
@@ -23,6 +25,8 @@ if __name__ == "__main__":
 
     # Sets up the log files
     log_setup.log_setup()
+
+    logging.info("Log setup complete")
 
     SETTING_PATH = str(
         input("Please enter the location to save setting files: (./settings): "))
