@@ -32,7 +32,7 @@ def get_log_path():
         if log_path == "":
             log_path = log_path_default
 
-        verify_log_path(log_path)
+        valid = verify_log_path(log_path)
 
     return log_path
 
@@ -45,9 +45,13 @@ def verify_log_path(log_path):
     log_path = pathlib.Path(log_path).absolute()
 
     # Creates the path if it doesn't exist
-    log_path.mkdir(exist_ok=True)
+    try:
+        log_path.mkdir(exist_ok=True)
+    except FileNotFoundError:
+        print("\nThat file couldn't be accessed please check the path and try again")
+        return False
 
-    return
+    return True
 
 
 def get_log_limmit():
