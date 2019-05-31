@@ -4,7 +4,7 @@ Sets up the logging files and log paths
 # Allows for path manipulation
 import pathlib
 # Converts writen numbers into integers
-from scr.utilities.responses import text2int, Illegal_Word
+from scr.utilities.responses import text2int, Illegal_Word, YES_RESPONSES
 
 
 def log_setup():
@@ -12,8 +12,24 @@ def log_setup():
     Gets the users log settings
     '''
 
-    get_log_path()
-    get_log_limmit()
+    confirmed = False
+
+    while not confirmed:
+        log_path = get_log_path()
+        log_limmit = get_log_limmit()
+
+        confirmed = confirm_inputs(log_path, log_limmit)
+
+
+def confirm_inputs(log_path, log_limmit):
+    '''
+    Checks the user didn't enter any typos
+    '''
+    if str(input("Are you sure you wish for {limmit} log files to be sotred in {path}: ".format(
+            limmit=log_limmit, path=log_path))).lower() in YES_RESPONSES:
+        return True
+
+    return False
 
 
 def get_log_path():
@@ -32,6 +48,8 @@ def get_log_path():
         if log_path == "":
             log_path = log_path_default
 
+        log_path = pathlib.Path(log_path).absolute()
+
         valid = verify_log_path(log_path)
 
     return log_path
@@ -41,8 +59,6 @@ def verify_log_path(log_path):
     '''
     Verify the path exists or asks them if they want to create it
     '''
-
-    log_path = pathlib.Path(log_path).absolute()
 
     # Creates the path if it doesn't exist
     try:
