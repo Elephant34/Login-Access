@@ -26,8 +26,6 @@ def log_setup():
 
     (log_path / "log_limmit.txt").write_text(str(log_limmit))
 
-    print((log_path / "log_limmit.txt").read_text())
-
     logging_quick_setup(log_path)
 
 
@@ -44,7 +42,23 @@ def logging_quick_setup(log_path):
                         format='%(asctime)s:%(module)s:\n%(levelname)s:%(message)s\n',
                         level=logging.INFO)
 
-    logging.info("Log Setup Successful")
+    logging.info("Log initilization Successful")
+
+    # Retrives the log limmit number
+    log_limmit = int((log_path / "log_limmit.txt").read_text())
+
+    # 0 is infinate so these steps will not need to happen
+    if log_limmit != 0:
+        log_list = sorted(list(log_path.glob("*.log")), reverse=True)
+        del log_list[:log_limmit]
+
+        logging.info("Clearing excess logs")
+
+        for log_file in log_list:
+            log_file.unlink()
+            logging.info("Log file removed")
+
+        logging.info("All log files removed successfully")
 
 
 def confirm_inputs(log_path, log_limmit):
@@ -73,7 +87,8 @@ def get_log_path():
         log_path = str(
             input("Please enter the location for all log files ([current path]/logs): "))
 
-        if log_path == "":
+        # Removes any unwanted white space
+        if log_path.strip() == "":
             log_path = log_path_default
 
         log_path = pathlib.Path(log_path).absolute()
@@ -83,7 +98,7 @@ def get_log_path():
     return log_path
 
 
-def verify_log_path(log_path):
+def verify_log_path(log_path, output=True):
     '''
     Verify the path exists or asks them if they want to create it
     '''
@@ -92,7 +107,9 @@ def verify_log_path(log_path):
     try:
         log_path.mkdir(exist_ok=True)
     except FileNotFoundError:
-        print("\nThat file couldn't be accessed please check the path and try again")
+        if output:
+            print(
+                "\nThat folder couldn't be accessed please check the path and try again")
         return False
 
     return True
@@ -118,7 +135,7 @@ def get_log_limmit():
     return log_limmit
 
 
-def verify_log_limmit(log_limmit):
+def verify_log_limmit(log_limmit, output=True):
     '''
     Verifies the limmit to the number of log files
     '''
@@ -138,13 +155,15 @@ def verify_log_limmit(log_limmit):
             validity = True
         except Illegal_Word:
             # text cannot be converted into a string
-            print(
-                "\nSorry, we didn't understand that, please check your input and try again")
+            if output:
+                print(
+                    "\nSorry, we didn't understand that, please check your input and try again")
             return validity
 
     # Ensures the number isn't negetive
     if log_limmit < 0:
-        print("\nSorry it cannot be a negetive number, please enter a new number")
+        if output:
+            print("\nSorry it cannot be a negetive number, please enter a new number")
         validity = False
 
     return validity
