@@ -3,21 +3,20 @@ Setup file for the settings storage
 '''
 # Allows for path manipulation
 import pathlib
+# Allows for manipulation of databases
+import sqlite3
 # Gets the valid yes options
 from scr.utilities.responses import YES_RESPONSES
 
 
-def log_setup():
+def setting_setup():
     '''
     Gets the users log settings
     '''
 
-    confirmed = False
+    settings_path = get_settings_path()
 
-    while not confirmed:
-        settings_path = get_settings_path()
-
-        confirmed = confirm_inputs(settings_path)
+    sqlite3.connect(str(settings_path / "loginAccess.db"))
 
 
 def get_settings_path():
@@ -29,13 +28,21 @@ def get_settings_path():
     valid = False
 
     while not valid:
-        settings_path = str(
-            input("Please enter the location for all setting files ([current path]/settings): "))
 
-        if settings_path.strip() == "":
-            settings_path = settings_path_default
+        confirmed = False
 
-        settings_path = pathlib.Path(settings_path).absolute()
+        while not confirmed:
+            settings_path = str(
+                input(
+                    "Please enter the location for all setting files ([current path]/settings): ")
+            )
+
+            if settings_path.strip() == "":
+                settings_path = settings_path_default
+
+            settings_path = pathlib.Path(settings_path).absolute()
+
+            confirmed = confirm_inputs(settings_path)
 
         valid = verify_settings_path(settings_path)
 

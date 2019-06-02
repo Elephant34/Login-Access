@@ -8,7 +8,7 @@ import pathlib
 # Allows for hashing of owners username and password
 from scr.utilities.hashing import hash_api
 # Calls the setup code moduals
-from scr.setup import log_setup
+from scr.setup import log_setup, setting_setup
 
 VERSION = "Development"
 
@@ -28,8 +28,9 @@ if __name__ == "__main__":
 
     logging.info("Log setup complete")
 
-    SETTING_PATH = str(
-        input("Please enter the location to save setting files: (./settings): "))
+    logging.info("Settings setup starting")
+    setting_setup.setting_setup()
+    logging.info("Settings setup complete")
 
     OWNER_NAME = HASHING.hash_text(
         input("Please enter the owner name: "), secure=False)

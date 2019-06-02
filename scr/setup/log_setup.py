@@ -16,13 +16,8 @@ def log_setup():
     Gets the users log settings
     '''
 
-    confirmed = False
-
-    while not confirmed:
-        log_path = get_log_path()
-        log_limmit = get_log_limmit()
-
-        confirmed = confirm_inputs(log_path, log_limmit)
+    log_path = get_log_path()
+    log_limmit = get_log_limmit()
 
     (log_path / "log_limmit.txt").write_text(str(log_limmit))
 
@@ -84,14 +79,20 @@ def get_log_path():
     valid = False
 
     while not valid:
-        log_path = str(
-            input("Please enter the location for all log files ([current path]/logs): "))
 
-        # Removes any unwanted white space
-        if log_path.strip() == "":
-            log_path = log_path_default
+        confirmed = False
 
-        log_path = pathlib.Path(log_path).absolute()
+        while not confirmed:
+            log_path = str(
+                input("Please enter the location for all log files ([current path]/logs): "))
+
+            # Removes any unwanted white space
+            if log_path.strip() == "":
+                log_path = log_path_default
+
+            log_path = pathlib.Path(log_path).absolute()
+
+            confirmed = confirm_inputs(log_path, log_limmit)
 
         valid = verify_log_path(log_path)
 
