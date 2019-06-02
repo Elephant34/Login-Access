@@ -23,6 +23,8 @@ def log_setup():
 
     logging_quick_setup(log_path)
 
+    return log_path
+
 
 def logging_quick_setup(log_path):
     '''

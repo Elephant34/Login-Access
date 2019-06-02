@@ -1,12 +1,14 @@
 '''
 Setup file for the settings storage
 '''
+# Allows for logging
+import logging
 # Allows for path manipulation
 import pathlib
-# Allows for manipulation of databases
-import sqlite3
 # Gets the valid yes options
 from scr.utilities.responses import YES_RESPONSES
+# Sets up the main database
+from scr.setup.database_setup import database_setup
 
 
 def setting_setup():
@@ -16,7 +18,11 @@ def setting_setup():
 
     settings_path = get_settings_path()
 
-    sqlite3.connect(str(settings_path / "loginAccess.db"))
+    database_path = str(settings_path / "loginAccess.db")
+
+    database_setup(database_path)
+
+    return settings_path
 
 
 def get_settings_path():
@@ -46,6 +52,8 @@ def get_settings_path():
 
         valid = verify_settings_path(settings_path)
 
+    logging.info("Settings path created %s", settings_path)
+
     return settings_path
 
 
@@ -61,6 +69,7 @@ def verify_settings_path(settings_path, output=True):
         if output:
             print(
                 "\nThat folder couldn't be accessed please check the path and try again")
+        logging.warning("Settings folder not found!")
         return False
 
     return True
