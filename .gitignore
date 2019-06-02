@@ -5,3 +5,4 @@ __pychache__
 .vscode
 logs
 settings
+test.py
