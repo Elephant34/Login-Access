@@ -56,12 +56,12 @@ def logging_quick_setup(log_path):
         logging.info("All log files removed successfully")
 
 
-def confirm_inputs(log_path, log_limmit):
+def confirm_inputs(log_path):
     '''
     Checks the user didn't enter any typos
     '''
-    if str(input("Are you sure you wish for {limmit} log files to be sotred in {path}: ".format(
-            limmit=log_limmit, path=log_path))).lower() in YES_RESPONSES:
+    if str(input("Are you sure you wish for log files to be sotred in {path}: ".format(
+            path=log_path))).lower() in YES_RESPONSES:
         return True
 
     print("Please enter your new inputs:")
@@ -92,7 +92,7 @@ def get_log_path():
 
             log_path = pathlib.Path(log_path).absolute()
 
-            confirmed = confirm_inputs(log_path, log_limmit)
+            confirmed = confirm_inputs(log_path)
 
         valid = verify_log_path(log_path)
 
