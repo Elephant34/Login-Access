@@ -25,5 +25,5 @@ if __name__ == "__main__":
     logging.info("Settings setup complete")
 
     logging.info("Owner account creation started")
-    owner_setup.owner_setup()
+    owner_setup.owner_setup(SETTING_PATH / "loginAccess.db")
     logging.info("Owner account creation completed successfuly")
