@@ -1,11 +1,11 @@
 notes.txt
-*.log
-*.pyc
-__pychache__
-.vscode
-logs
 settings
 test.py
 build
 dist
 LoginAccess.py
+*.log
+*.pyc
+__pychache__
+.vscode
+logs
