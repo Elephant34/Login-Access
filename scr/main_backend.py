@@ -22,8 +22,11 @@ def Run(setting_path, log_path):
 
     root = tkinter.Tk()
 
-    root.config(bg="red")
-
     root.mainloop()
 
     return
+
+
+# This is only here for debugging
+if __name__ == "__main__":
+    Run("./settings", "./logs")

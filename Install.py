@@ -58,3 +58,6 @@ if __name__ == "__main__":
     system("pyinstaller loginAccess.spec")
 
     logging.info("executable created successfully")
+
+    print(("\nSetup completed successfully- please",
+           "run the file found in ./dist to run the login Access system"))
