@@ -49,7 +49,7 @@ LOG_PATH = r"{log_path}"  # pylint: disable=line-too-long
 if __name__ == "__main__":
     main_backend.Run(SETTINGS_PATH, LOG_PATH)
 
-        """.format(settings_path=SETTING_PATH, log_path=LOG_PATH))
+""".format(settings_path=SETTING_PATH, log_path=LOG_PATH))
 
     logging.info("Paths written to LoginAccess.py")
 

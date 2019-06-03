@@ -25,8 +25,3 @@ def Run(setting_path, log_path):
     root.mainloop()
 
     return
-
-
-# This is only here for debugging
-if __name__ == "__main__":
-    Run("./settings", "./logs")
