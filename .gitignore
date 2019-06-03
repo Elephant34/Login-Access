@@ -6,3 +6,5 @@ __pychache__
 logs
 settings
 test.py
+build
+dist
