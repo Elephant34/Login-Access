@@ -3,9 +3,9 @@ settings
 test.py
 build
 dist
-LoginAccess.py
 *.log
 *.pyc
 __pychache__
 .vscode
 logs
+LoginAccess.py
