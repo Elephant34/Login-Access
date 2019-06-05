@@ -9,6 +9,8 @@ import pathlib
 from scr.utilities.responses import YES_RESPONSES
 # Sets up the main database
 from scr.setup.database_setup import database_setup
+# Sets up the default colours
+from scr.setup.default_colours_setup import set_default_colours
 
 
 def setting_setup():
@@ -21,6 +23,8 @@ def setting_setup():
     database_path = str(settings_path / "loginAccess.db")
 
     database_setup(database_path)
+
+    set_default_colours(settings_path)
 
     return settings_path
 

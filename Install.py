@@ -59,5 +59,4 @@ if __name__ == "__main__":
 
     logging.info("executable created successfully")
 
-    print(("\nSetup completed successfully- please",
-           "run the file found in ./dist to run the login Access system"))
+    print("\nSetup completed successfully- please run the file found in ./dist to run the login Access system")  # pylint: disable=line-too-long
