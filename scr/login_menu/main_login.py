@@ -29,8 +29,8 @@ class LoginMenu(tkinter.Frame):  # pylint: disable=too-many-ancestors
 
         self.config(bg=self.colour_data["background"])
 
-        self.title_lbl = Title(self.colour_data, self).pack(
-            fill=tkinter.X, expand=True, side=tkinter.TOP)
+        self.title_lbl = Title(self.colour_data, self)
+        self.title_lbl.pack(fill=tkinter.X, expand=True, side=tkinter.TOP)
 
 
 class Title(tkinter.Frame):  # pylint: disable=too-many-ancestors
