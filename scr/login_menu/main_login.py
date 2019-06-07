@@ -27,10 +27,16 @@ class LoginMenu(tkinter.Frame):  # pylint: disable=too-many-ancestors
         with open(colours_path) as json_file:
             self.colour_data = json.load(json_file)
 
+        parent.config(bg=self.colour_data["background"])
         self.config(bg=self.colour_data["background"])
 
-        self.title_lbl = Title(self.colour_data, self)
-        self.title_lbl.pack(fill=tkinter.X, expand=True, side=tkinter.TOP)
+        self.title_fr = Title(self.colour_data, self)
+        self.title_fr.pack(fill=tkinter.X, expand=True,
+                           side=tkinter.TOP, padx=5, pady=1)
+
+        self.user_input_fr = UserInputs(self.colour_data, self)
+        self.user_input_fr.pack(
+            fill=tkinter.X, expand=True, side=tkinter.TOP, padx=5, pady=2)
 
 
 class Title(tkinter.Frame):  # pylint: disable=too-many-ancestors
@@ -40,13 +46,15 @@ class Title(tkinter.Frame):  # pylint: disable=too-many-ancestors
 
     def __init__(self, colour_data, parent, *args, **kwargs):
         '''
-        Loads the main frame of the GUI
+        Loads the title frame of the GUI
         '''
         logging.info("Loading title")
         # The the relevant frame methods
         tkinter.Frame.__init__(self, parent, *args, **kwargs)
 
         self.colour_data = colour_data
+
+        self.config(bg=self.colour_data["background"])
 
         # Label to show the main title text
         tkinter.Label(
@@ -68,3 +76,72 @@ class Title(tkinter.Frame):  # pylint: disable=too-many-ancestors
             anchor=tkinter.CENTER
         )
         self.space_lbl.pack(fill=tkinter.BOTH, expand=True, side=tkinter.TOP)
+
+
+class UserInputs(tkinter.Frame):  # pylint: disable=too-many-ancestors
+    '''
+    The GUI to handel the user inputs
+    '''
+
+    def __init__(self, colour_data, parent, *args, **kwargs):
+        '''
+        Loads the title frame of the GUI
+        '''
+        logging.info("Loading user inputs")
+        # The the relevant frame methods
+        tkinter.Frame.__init__(self, parent, *args, **kwargs)
+
+        self.colour_data = colour_data
+
+        self.config(bg=self.colour_data["background"])
+
+        self.username_fr = tkinter.Frame(
+            self,
+            bg=self.colour_data["background"],
+        )
+
+        self.username_fr.pack(fill=tkinter.BOTH, expand=True, side=tkinter.TOP)
+
+        # Username label
+        tkinter.Label(
+            self.username_fr,
+            text="Username:",
+            bg=self.colour_data["background"],
+            fg=self.colour_data["foreground"],
+            font=self.colour_data["font"],
+            anchor=tkinter.CENTER
+        ).pack(fill=tkinter.BOTH, expand=True, side=tkinter.LEFT, padx=3, pady=2)
+
+        # Username entry
+        self.username_ent = tkinter.Entry(
+            self.username_fr,
+            fg=self.colour_data["foreground"],
+            font=self.colour_data["font"],
+        )
+        self.username_ent.pack(
+            fill=tkinter.BOTH, expand=True, side=tkinter.RIGHT, padx=3, pady=2)
+
+        self.password_fr = tkinter.Frame(
+            self,
+            bg=self.colour_data["background"],
+        )
+
+        self.password_fr.pack(fill=tkinter.BOTH, expand=True, side=tkinter.TOP)
+
+        tkinter.Label(
+            self.password_fr,
+            text="Password:",
+            bg=self.colour_data["background"],
+            fg=self.colour_data["foreground"],
+            font=self.colour_data["font"],
+            anchor=tkinter.CENTER
+        ).pack(fill=tkinter.BOTH, expand=True, side=tkinter.LEFT, padx=3, pady=2)
+
+        # Username entry
+        self.password_ent = tkinter.Entry(
+            self.password_fr,
+            fg=self.colour_data["foreground"],
+            font=self.colour_data["font"],
+        )
+        self.password_ent.pack(
+            fill=tkinter.BOTH, expand=True, side=tkinter.RIGHT, padx=3, pady=2)
