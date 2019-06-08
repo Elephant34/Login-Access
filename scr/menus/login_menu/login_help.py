@@ -7,7 +7,7 @@ import tkinter
 import logging
 
 
-class Help(tkinter.Frame):
+class Help(tkinter.Frame):  # pylint: disable=too-many-ancestors
     '''
     Loads all of the help screens methods
     '''
@@ -16,7 +16,7 @@ class Help(tkinter.Frame):
         '''
         Loads the help frame of the GUI
         '''
-        logging.info("Loading main buttons (bottom three)")
+        logging.info("Loading help frame")
         # The the relevant frame methods
         tkinter.Frame.__init__(self, parent, *args, **kwargs)
 

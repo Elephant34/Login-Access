@@ -8,7 +8,9 @@ import tkinter
 # Used to extract the colours
 import json
 # To load the help menu
-from scr.login_menu.login_help import Help
+from scr.menus.login_menu.login_help import Help
+# For creating the title
+from scr.menus.title import Title
 
 
 class LoginMenu(tkinter.Frame):  # pylint: disable=too-many-ancestors
@@ -35,7 +37,7 @@ class LoginMenu(tkinter.Frame):  # pylint: disable=too-many-ancestors
         self.config(bg=self.colour_data["background"])
 
         # Loads the title
-        self.title_fr = Title(self.colour_data, self)
+        self.title_fr = Title("Login:", self.colour_data, self)
         self.title_fr.pack(fill=tkinter.X, expand=True,
                            side=tkinter.TOP, padx=5, pady=1)
 
@@ -88,45 +90,6 @@ class LoginMenu(tkinter.Frame):  # pylint: disable=too-many-ancestors
         print(str(self.user_input_fr.username_ent.get()))
 
         return
-
-
-class Title(tkinter.Frame):  # pylint: disable=too-many-ancestors
-    '''
-    Stores the title and title spacing of the screen
-    '''
-
-    def __init__(self, colour_data, parent, *args, **kwargs):
-        '''
-        Loads the title frame of the GUI
-        '''
-        logging.info("Loading title")
-        # The the relevant frame methods
-        tkinter.Frame.__init__(self, parent, *args, **kwargs)
-
-        self.colour_data = colour_data
-
-        self.config(bg=self.colour_data["background"])
-
-        # Label to show the main title text
-        tkinter.Label(
-            self,
-            text="Login:",
-            bg=self.colour_data["background"],
-            fg=self.colour_data["foreground"],
-            font=self.colour_data["title_font"],
-            anchor=tkinter.W
-        ).pack(fill=tkinter.BOTH, expand=True, side=tkinter.TOP)
-
-        # Spacer label- this may be used to show other text and so is saved
-        self.space_lbl = tkinter.Label(
-            self,
-            text="",
-            bg=self.colour_data["background"],
-            fg=self.colour_data["foreground"],
-            font=self.colour_data["font"],
-            anchor=tkinter.CENTER
-        )
-        self.space_lbl.pack(fill=tkinter.BOTH, expand=True, side=tkinter.TOP)
 
 
 class UserInputs(tkinter.Frame):  # pylint: disable=too-many-ancestors

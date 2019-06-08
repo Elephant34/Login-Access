@@ -11,7 +11,7 @@ import pathlib
 # Sets up the logging system to the right directory
 from scr.setup.log_setup import logging_quick_setup
 # To open the main login menu
-from scr.login_menu.main_login import LoginMenu
+from scr.menus.login_menu.main_login import LoginMenu
 # To open the static files
 from scr.utilities.resource_path import resource_path
 
