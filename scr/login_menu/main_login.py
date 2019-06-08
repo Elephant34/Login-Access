@@ -30,13 +30,60 @@ class LoginMenu(tkinter.Frame):  # pylint: disable=too-many-ancestors
         parent.config(bg=self.colour_data["background"])
         self.config(bg=self.colour_data["background"])
 
+        # Loads the title
         self.title_fr = Title(self.colour_data, self)
         self.title_fr.pack(fill=tkinter.X, expand=True,
                            side=tkinter.TOP, padx=5, pady=1)
 
-        self.user_input_fr = UserInputs(self.colour_data, self)
+        self.login_fr = tkinter.Frame(self, bg=self.colour_data["background"])
+        self.login_fr.pack(fill=tkinter.X, expand=True,
+                           side=tkinter.TOP, padx=5, pady=2)
+
+        # Loads the area for the user to enter their username and password
+        self.user_input_fr = UserInputs(self.colour_data, self.login_fr)
         self.user_input_fr.pack(
-            fill=tkinter.X, expand=True, side=tkinter.TOP, padx=5, pady=2)
+            fill=tkinter.X, expand=True, side=tkinter.LEFT, padx=3, pady=2)
+        # Fucuses the mouse cursor on the username entry
+        self.user_input_fr.username_ent.focus()
+
+        # Login buton
+        tkinter.Button(
+            self.login_fr,
+            text="Login",
+            bg=self.colour_data["positive_btn_background"],
+            activebackground=self.colour_data["positive_btn_active"],
+            fg=self.colour_data["foreground"],
+            font=self.colour_data["font"],
+            anchor=tkinter.CENTER,
+            command=lambda: self.login()  # pylint: disable=unnecessary-lambda
+        ).pack(fill=tkinter.BOTH, expand=True, side=tkinter.RIGHT, padx=2, pady=2)
+
+        # Loads the main button frame
+        self.button_fr = MainButtons(self.colour_data, self)
+        self.button_fr.pack(fill=tkinter.X, expand=True,
+                            side=tkinter.BOTTOM, padx=5, pady=2)
+
+        # Sets the username to focus on the password when enter is pressed
+        self.user_input_fr.username_ent.bind(
+            "<Return>",
+            lambda e: self.user_input_fr.password_ent.focus()
+        )
+        # If enter is pressed when on password entry it will atempt login
+        self.user_input_fr.password_ent.bind(
+            "<Return>",
+            lambda e: self.login()
+        )
+
+        logging.info("Login menu GUI created successfully")
+
+    def login(self):
+        '''
+        Gets the users inputs hashes them and attempt to login the user in
+        '''
+
+        print(str(self.user_input_fr.username_ent.get()))
+
+        return
 
 
 class Title(tkinter.Frame):  # pylint: disable=too-many-ancestors
@@ -148,7 +195,7 @@ class UserInputs(tkinter.Frame):  # pylint: disable=too-many-ancestors
             anchor=tkinter.CENTER
         ).pack(fill=tkinter.BOTH, expand=True, side=tkinter.LEFT, padx=3, pady=2)
 
-        # Username entry
+        # password entry
         self.password_ent = tkinter.Entry(
             self.password_fr,
             fg=self.colour_data["foreground"],
@@ -156,3 +203,70 @@ class UserInputs(tkinter.Frame):  # pylint: disable=too-many-ancestors
         )
         self.password_ent.pack(
             fill=tkinter.BOTH, expand=True, side=tkinter.RIGHT, padx=3, pady=2)
+
+
+class MainButtons(tkinter.Frame):  # pylint: disable=too-many-ancestors
+    '''
+    The GUI to handel the user inputs
+    '''
+
+    def __init__(self, colour_data, parent, *args, **kwargs):
+        '''
+        Loads the title frame of the GUI
+        '''
+        logging.info("Loading main buttons (bottom three)")
+        # The the relevant frame methods
+        tkinter.Frame.__init__(self, parent, *args, **kwargs)
+
+        self.colour_data = colour_data
+
+        self.config(bg=self.colour_data["background"])
+
+        # Loads the quit button
+        tkinter.Button(
+            self,
+            text="Exit",
+            bg=self.colour_data["negetive_btn_background"],
+            activebackground=self.colour_data["negetive_btn_active"],
+            fg=self.colour_data["foreground"],
+            font=self.colour_data["font"],
+            anchor=tkinter.CENTER,
+            command=lambda: exit_gui()  # pylint: disable=unnecessary-lambda
+        ).pack(fill=tkinter.X, expand=True, side=tkinter.LEFT, padx=2, pady=2)
+
+        # loads the help button
+        tkinter.Button(
+            self,
+            text="Help",
+            bg=self.colour_data["btn_background"],
+            activebackground=self.colour_data["btn_active"],
+            fg=self.colour_data["foreground"],
+            font=self.colour_data["font"],
+            anchor=tkinter.CENTER,
+            command=lambda: self.load_help()  # pylint: disable=unnecessary-lambda
+        ).pack(fill=tkinter.X, expand=True, side=tkinter.LEFT, padx=2, pady=2)
+
+        # loads the new account button
+        tkinter.Button(
+            self,
+            text="New Account",
+            bg=self.colour_data["btn_background"],
+            activebackground=self.colour_data["btn_active"],
+            fg=self.colour_data["foreground"],
+            font=self.colour_data["font"],
+            anchor=tkinter.CENTER,
+            command=lambda: self.load_help()  # pylint: disable=unnecessary-lambda
+        ).pack(fill=tkinter.X, expand=True, side=tkinter.LEFT, padx=2, pady=2)
+
+    def load_help(self):  # pylint: disable=no-self-use
+        '''
+        loads the help screen toplevel
+        '''
+
+        return
+
+
+def exit_gui():
+    '''Quits the program'''
+    logging.info("Quiting program. Good bye.")
+    raise SystemExit
