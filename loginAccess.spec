@@ -18,6 +18,7 @@ a = Analysis(['loginAccess.py'],
 
 a.datas += [
     ("LICENSE", "./LICENSE", "DATA"),
+    ("./scr/static_resources/mainIcon.ico", "./scr/static_resources/mainIcon.ico", "DATA")
 ]
 
 pyz = PYZ(a.pure, a.zipped_data,
