@@ -12,6 +12,8 @@ import pathlib
 from scr.setup.log_setup import logging_quick_setup
 # To open the main login menu
 from scr.login_menu.main_login import LoginMenu
+# To open the static files
+from scr.utilities.resource_path import resource_path
 
 
 def Run(setting_path, log_path):
@@ -27,6 +29,9 @@ def Run(setting_path, log_path):
     logging.info("Running main program")
 
     root = tkinter.Tk()
+
+    root.title("Login Access")
+    root.wm_iconbitmap(resource_path("./scr/static_resources/mainIcon.ico"))
 
     # Loads the login menu screen
     LoginMenu(setting_path, root).pack(fill=tkinter.BOTH, expand=True)
