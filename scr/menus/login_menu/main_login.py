@@ -30,6 +30,8 @@ class LoginMenu(tkinter.Frame):  # pylint: disable=too-many-ancestors
 
         self.top_parent = parent
 
+        self.settings_path = settings_path
+
         with open(colours_path) as json_file:
             self.colour_data = json.load(json_file)
 
@@ -65,7 +67,7 @@ class LoginMenu(tkinter.Frame):  # pylint: disable=too-many-ancestors
         ).pack(fill=tkinter.BOTH, expand=True, side=tkinter.RIGHT, padx=2, pady=2)
 
         # Loads the main button frame
-        self.button_fr = MainButtons(self.colour_data, self.top_parent, self)
+        self.button_fr = MainButtons(self.settings_path, self.colour_data, self.top_parent, self)
         self.button_fr.pack(fill=tkinter.X, expand=True,
                             side=tkinter.BOTTOM, padx=5, pady=2)
 
@@ -177,7 +179,7 @@ class MainButtons(tkinter.Frame):  # pylint: disable=too-many-ancestors
     The GUI to handel the user inputs
     '''
 
-    def __init__(self, colour_data, top_parent, parent, *args, **kwargs):
+    def __init__(self, settings_path, colour_data, top_parent, parent, *args, **kwargs):
         '''
         Loads the title frame of the GUI
         '''
@@ -187,6 +189,8 @@ class MainButtons(tkinter.Frame):  # pylint: disable=too-many-ancestors
 
         self.parent = parent
         self.top_parent = top_parent
+
+        self.settings_path = settings_path
 
         self.colour_data = colour_data
 
@@ -233,7 +237,7 @@ class MainButtons(tkinter.Frame):  # pylint: disable=too-many-ancestors
         loads the help screen toplevel
         '''
         self.parent.destroy()
-        Help(self.colour_data, self.top_parent).pack(
+        Help(self.settings_path, self.colour_data, self.top_parent).pack(
             fill=tkinter.BOTH, expand=True)
         return
 
