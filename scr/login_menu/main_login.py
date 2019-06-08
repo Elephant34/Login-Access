@@ -95,6 +95,13 @@ class UserInputs(tkinter.Frame):  # pylint: disable=too-many-ancestors
 
         self.config(bg=self.colour_data["background"])
 
+        self.username_gui()
+        self.password_gui()
+
+    def username_gui(self):
+        '''
+        sets up the username entry lable and entry
+        '''
         self.username_fr = tkinter.Frame(
             self,
             bg=self.colour_data["background"],
@@ -121,6 +128,10 @@ class UserInputs(tkinter.Frame):  # pylint: disable=too-many-ancestors
         self.username_ent.pack(
             fill=tkinter.BOTH, expand=True, side=tkinter.RIGHT, padx=3, pady=2)
 
+    def password_gui(self):
+        '''
+        Sets the password label and entr widgets
+        '''
         self.password_fr = tkinter.Frame(
             self,
             bg=self.colour_data["background"],
