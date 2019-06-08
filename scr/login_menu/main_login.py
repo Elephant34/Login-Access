@@ -7,6 +7,8 @@ import logging
 import tkinter
 # Used to extract the colours
 import json
+# To load the help menu
+from scr.login_menu.login_help import Help
 
 
 class LoginMenu(tkinter.Frame):  # pylint: disable=too-many-ancestors
@@ -23,6 +25,8 @@ class LoginMenu(tkinter.Frame):  # pylint: disable=too-many-ancestors
         tkinter.Frame.__init__(self, parent, *args, **kwargs)
 
         colours_path = str(settings_path / "default_colours.json")
+
+        self.top_parent = parent
 
         with open(colours_path) as json_file:
             self.colour_data = json.load(json_file)
@@ -59,7 +63,7 @@ class LoginMenu(tkinter.Frame):  # pylint: disable=too-many-ancestors
         ).pack(fill=tkinter.BOTH, expand=True, side=tkinter.RIGHT, padx=2, pady=2)
 
         # Loads the main button frame
-        self.button_fr = MainButtons(self.colour_data, self)
+        self.button_fr = MainButtons(self.colour_data, self.top_parent, self)
         self.button_fr.pack(fill=tkinter.X, expand=True,
                             side=tkinter.BOTTOM, padx=5, pady=2)
 
@@ -210,13 +214,16 @@ class MainButtons(tkinter.Frame):  # pylint: disable=too-many-ancestors
     The GUI to handel the user inputs
     '''
 
-    def __init__(self, colour_data, parent, *args, **kwargs):
+    def __init__(self, colour_data, top_parent, parent, *args, **kwargs):
         '''
         Loads the title frame of the GUI
         '''
         logging.info("Loading main buttons (bottom three)")
         # The the relevant frame methods
         tkinter.Frame.__init__(self, parent, *args, **kwargs)
+
+        self.parent = parent
+        self.top_parent = top_parent
 
         self.colour_data = colour_data
 
@@ -255,14 +262,23 @@ class MainButtons(tkinter.Frame):  # pylint: disable=too-many-ancestors
             fg=self.colour_data["foreground"],
             font=self.colour_data["font"],
             anchor=tkinter.CENTER,
-            command=lambda: self.load_help()  # pylint: disable=unnecessary-lambda
+            command=lambda: self.load_new_account()  # pylint: disable=unnecessary-lambda
         ).pack(fill=tkinter.X, expand=True, side=tkinter.LEFT, padx=2, pady=2)
 
-    def load_help(self):  # pylint: disable=no-self-use
+    def load_help(self):
         '''
         loads the help screen toplevel
         '''
+        self.parent.destroy()
+        Help(self.colour_data, self.top_parent).pack(
+            fill=tkinter.BOTH, expand=True)
+        return
 
+    def load_new_account(self):
+        '''
+        Loads the new account menu
+        '''
+        self.parent.destroy()
         return
 
 
