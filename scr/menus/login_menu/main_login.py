@@ -9,6 +9,8 @@ import tkinter
 import json
 # To load the help menu
 from scr.menus.login_menu.login_help import Help
+# For loading the new account GUI
+from scr.menus.login_menu.new_account import NewAccountGUI
 # For creating the title
 from scr.menus.title import Title
 
@@ -67,7 +69,8 @@ class LoginMenu(tkinter.Frame):  # pylint: disable=too-many-ancestors
         ).pack(fill=tkinter.BOTH, expand=True, side=tkinter.RIGHT, padx=2, pady=2)
 
         # Loads the main button frame
-        self.button_fr = MainButtons(self.settings_path, self.colour_data, self.top_parent, self)
+        self.button_fr = MainButtons(
+            self.settings_path, self.colour_data, self.top_parent, self)
         self.button_fr.pack(fill=tkinter.X, expand=True,
                             side=tkinter.BOTTOM, padx=5, pady=2)
 
@@ -246,6 +249,8 @@ class MainButtons(tkinter.Frame):  # pylint: disable=too-many-ancestors
         Loads the new account menu
         '''
         self.parent.destroy()
+        NewAccountGUI(self.settings_path, self.colour_data, self.top_parent).pack(
+            fill=tkinter.BOTH, expand=True)
         return
 
 
