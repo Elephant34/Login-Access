@@ -70,14 +70,14 @@ def create_owner_account(username, password_hash, database_path):
     Insets the user into the database
     '''
 
-    account_type = HASH_API.hash_text("owner")
+    group = HASH_API.hash_text("owner")
 
     with sqlite3.connect(str(database_path)) as con:
         cur = con.cursor()
 
         cur.execute("""
             INSERT INTO Users('Username', 'Password', 'group') VALUES (?, ?, ?)
-        """, (username, password_hash, account_type))
+        """, (username, password_hash, group))
 
     logging.info("Owner account inserted into database")
 
