@@ -5,6 +5,8 @@ Loads the help frame for the users login
 import tkinter
 # for logging events
 import logging
+# For opening the wiki
+import webbrowser
 # For title creation
 from scr.menus.title import Title
 # To take the user back to the login screen
@@ -35,6 +37,27 @@ class Help(tkinter.Frame):  # pylint: disable=too-many-ancestors
         Title("Help:", self.colour_data, self).pack(fill=tkinter.X, expand=True,
                                                     side=tkinter.TOP, padx=5, pady=1)
 
+        # The main help text container
+        help_message = (
+            "Welcome to Login Access Help, if you have forgeten your "
+            "password please press the password rest button below. "
+            "If you need help with loging in, creating an account or anything else "
+            "please take a look at the wiki by pressing the button below. "
+            "Thank you\n"
+        )
+        message = tkinter.Message(
+            self,
+            text=help_message,
+            bg=self.colour_data["background"],
+            fg=self.colour_data["foreground"],
+            font=self.colour_data["font"],
+            anchor=tkinter.W
+        )
+        message.pack(fill=tkinter.BOTH, expand=True,
+                     side=tkinter.TOP, padx=5, pady=3)
+        message.bind(
+            "<Configure>", lambda e: message.config(width=e.width-10))
+
         Buttons(self.settings_path, self.parent, self.colour_data, self).pack(
             fill=tkinter.X, expand=True, side=tkinter.TOP, padx=5, pady=1)
 
@@ -48,7 +71,7 @@ class Buttons(tkinter.Frame):  # pylint: disable=too-many-ancestors
         '''
         Loads the button frame of the GUI
         '''
-        logging.info("Loading help frame")
+        logging.info("Loading help buttons")
         # The the relevant frame methods
         tkinter.Frame.__init__(self, parent, *args, **kwargs)
 
@@ -61,6 +84,7 @@ class Buttons(tkinter.Frame):  # pylint: disable=too-many-ancestors
 
         self.config(bg=self.colour_data["background"])
 
+        # Back button
         tkinter.Button(
             self,
             text="Back",
@@ -69,16 +93,60 @@ class Buttons(tkinter.Frame):  # pylint: disable=too-many-ancestors
             fg=self.colour_data["foreground"],
             font=self.colour_data["font"],
             command=lambda: self.back()  # pylint: disable=unnecessary-lambda
-        ).pack(fill=tkinter.BOTH, expand=True, padx=2, pady=2)
+        ).pack(fill=tkinter.BOTH, side=tkinter.LEFT, expand=True, padx=2, pady=2)
+
+        # Wiki butten to load the full github wiki
+        tkinter.Button(
+            self,
+            text="Wiki",
+            bg=self.colour_data["btn_background"],
+            activebackground=self.colour_data["btn_active"],
+            fg=self.colour_data["foreground"],
+            font=self.colour_data["font"],
+            command=lambda: self.load_wiki()  # pylint: disable=unnecessary-lambda
+        ).pack(fill=tkinter.BOTH, side=tkinter.LEFT, expand=True, padx=2, pady=3)
+
+        # Password reset button
+        tkinter.Button(
+            self,
+            text="Reset Password",
+            bg=self.colour_data["btn_background"],
+            activebackground=self.colour_data["btn_active"],
+            fg=self.colour_data["foreground"],
+            font=self.colour_data["font"],
+            command=lambda: self.reset_password()  # pylint: disable=unnecessary-lambda
+        ).pack(fill=tkinter.BOTH, side=tkinter.LEFT, expand=True, padx=2, pady=3)
 
     def back(self):
         '''
         Takes the user back to the login screen
         '''
+        logging.info("Exiting the help menu")
         self.parent.destroy()
         main_login.LoginMenu(self.settings_path, self.top_parent).pack(
             fill=tkinter.BOTH,
             expand=True
         )
+
+        return
+
+    def load_wiki(self):  # pylint: disable=no-self-use
+        '''
+        Opens the github wiki page
+        https://github.com/Elephant34/Login-Access/wiki
+        '''
+        logging.info("Loading the wiki page")
+
+        webbrowser.open(
+            "https://github.com/Elephant34/Login-Access/wiki/")
+
+        return
+
+    def reset_password(self):
+        '''
+        Loads the settings for reseting a users password
+        '''
+
+        # BUG- Work in progress
 
         return
