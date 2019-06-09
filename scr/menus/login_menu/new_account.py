@@ -11,6 +11,8 @@ import logging
 from scr.menus.title import Title
 # TO go back to the main login screen
 from scr.menus.login_menu import main_login
+# For account creation
+from scr.account_handlers.new_account import NewAccount
 
 
 class NewAccountGUI(tkinter.Frame):  # pylint: disable=too-many-ancestors
@@ -45,7 +47,9 @@ class NewAccountGUI(tkinter.Frame):  # pylint: disable=too-many-ancestors
         # Fucuses the mouse cursor on the username entry
         self.user_input_fr.username_ent.focus()
 
-        Buttons(self.settings_path, self.parent, self.colour_data, self).pack(
+        self.buttons_fr = Buttons(
+            self.settings_path, self.parent, self.colour_data, self)
+        self.buttons_fr.pack(
             fill=tkinter.X, expand=True, side=tkinter.TOP, padx=5, pady=1)
 
         # Sets the username to focus on the password when enter is pressed
@@ -57,6 +61,11 @@ class NewAccountGUI(tkinter.Frame):  # pylint: disable=too-many-ancestors
         self.user_input_fr.password_ent.bind(
             "<Return>",
             lambda e: self.user_input_fr.repeatpassword_ent.focus()
+        )
+
+        self.user_input_fr.repeatpassword_ent.bind(
+            "<Return>",
+            lambda e: self.buttons_fr.new_account()
         )
 
 
@@ -136,6 +145,7 @@ class UserInputs(tkinter.Frame):  # pylint: disable=too-many-ancestors
             self.password_fr,
             fg=self.colour_data["foreground"],
             font=self.colour_data["font"],
+            show="•"
         )
         self.password_ent.pack(
             fill=tkinter.BOTH, expand=True, side=tkinter.RIGHT, padx=3, pady=2)
@@ -166,6 +176,7 @@ class UserInputs(tkinter.Frame):  # pylint: disable=too-many-ancestors
             self.repeatpassword_fr,
             fg=self.colour_data["foreground"],
             font=self.colour_data["font"],
+            show="•"
         )
         self.repeatpassword_ent.pack(
             fill=tkinter.BOTH, expand=True, side=tkinter.RIGHT, padx=3, pady=2)
@@ -234,6 +245,10 @@ class Buttons(tkinter.Frame):  # pylint: disable=too-many-ancestors
         '''
         logging.info("Loading the new account methods")
 
-        # Work in progress
+        NewAccount(
+            self.parent.user_input_fr,
+            self.settings_path,
+            self.parent.title_lbl.space_lbl
+        )
 
         return

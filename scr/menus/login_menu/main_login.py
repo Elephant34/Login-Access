@@ -172,6 +172,7 @@ class UserInputs(tkinter.Frame):  # pylint: disable=too-many-ancestors
             self.password_fr,
             fg=self.colour_data["foreground"],
             font=self.colour_data["font"],
+            show="•"
         )
         self.password_ent.pack(
             fill=tkinter.BOTH, expand=True, side=tkinter.RIGHT, padx=3, pady=2)
