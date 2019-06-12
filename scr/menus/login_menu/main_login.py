@@ -13,6 +13,10 @@ from scr.menus.login_menu.login_help import Help
 from scr.menus.login_menu.new_account import NewAccountGUI
 # For creating the title
 from scr.menus.title import Title
+# For logging in
+from scr.account_handlers.login import check_login
+# Calls the main menu
+from scr.menus.main_menu import main_menu
 
 
 class LoginMenu(tkinter.Frame):  # pylint: disable=too-many-ancestors
@@ -92,7 +96,27 @@ class LoginMenu(tkinter.Frame):  # pylint: disable=too-many-ancestors
         Gets the users inputs hashes them and attempt to login the user in
         '''
 
-        print(str(self.user_input_fr.username_ent.get()))
+        successfull_login = check_login(
+            self.settings_path,
+            self.user_input_fr.username_ent,
+            self.user_input_fr.password_ent
+        )
+        if successfull_login:
+            self.title_fr.space_lbl.config(text="Success")
+            main_menu.MainMenu(
+                self.settings_path,
+                self.top_parent,
+                self.user_input_fr.username_ent.get(),
+                self.colour_data
+            )
+            self.destroy()
+        else:
+            self.title_fr.space_lbl.config(
+                text="Sorry, that username and password isn't valid")
+            self.user_input_fr.username_ent.delete(0, tkinter.END)
+            self.user_input_fr.password_ent.delete(0, tkinter.END)
+
+            self.user_input_fr.username_ent.focus()
 
         return
 

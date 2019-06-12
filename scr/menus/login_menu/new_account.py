@@ -13,6 +13,8 @@ from scr.menus.title import Title
 from scr.menus.login_menu import main_login
 # For account creation
 from scr.account_handlers.new_account import NewAccount
+# For loging the user in to the main menu
+from scr.menus.main_menu import main_menu
 
 
 class NewAccountGUI(tkinter.Frame):  # pylint: disable=too-many-ancestors
@@ -250,5 +252,11 @@ class Buttons(tkinter.Frame):  # pylint: disable=too-many-ancestors
             self.settings_path,
             self.parent.title_lbl.space_lbl
         )
+
+        if self.parent.title_lbl.space_lbl.cget("text") == "Account creation sucessfull":
+            self.username = str(self.parent.user_input_fr.username_ent.get())
+            self.parent.destroy()
+            main_menu.MainMenu(self.settings_path, self.top_parent,
+                               self.username, self.colour_data)
 
         return

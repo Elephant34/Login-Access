@@ -67,6 +67,7 @@ class NewAccount():
         if account_callback != True:
             self.clear_inputs()
             self.space_lbl.config(text=account_callback)
+            return
 
         self.space_lbl.config(text="Account creation sucessfull")
         return
