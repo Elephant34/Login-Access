@@ -145,5 +145,7 @@ def create_account(settings_path, username, password, group):
                         (username, password, group))
         except sqlite3.IntegrityError:
             return "Username already exists"
+        except sqlite3.OperationalError:
+            return "Database is open in another program- please close it and try again"
 
     return True
