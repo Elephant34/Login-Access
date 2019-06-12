@@ -11,6 +11,8 @@ import sqlite3
 from scr.menus.title import Title
 # For hashing
 from scr.utilities.hashing.hash_api import Hash
+# Checks the colours are valid
+from scr.utilities.verify_colour import verify_colour
 
 HASH_API = Hash()
 
@@ -37,9 +39,15 @@ class MainMenu(tkinter.Frame):  # pylint: disable=too-many-ancestors
 
         self.colour_data = self.get_colour_data(colour_data)
 
-        title_lbl = Title("Welcome {}!".format(
+        parent.config(bg=self.colour_data["background"])
+        self.config(bg=self.colour_data["background"])
+
+        self.title_fr = Title("Welcome {}!".format(
             self.username), self.colour_data, self)
-        title_lbl.pack(fill=tkinter.X, expand=True, padx=5, pady=1)
+        self.title_fr.pack(fill=tkinter.X, expand=True,
+                           side=tkinter.TOP, padx=5, pady=1)
+
+        return
 
     def get_colour_data(self, default_colour_data):
         '''
@@ -72,8 +80,39 @@ class MainMenu(tkinter.Frame):  # pylint: disable=too-many-ancestors
             cur.execute(
                 """SELECT * FROM Colours WHERE Username=?""", (self.username_hash,))
 
-            colour_data = cur.fetchall()[0]
+            try:
+                colour_data = cur.fetchall()[0]
+            except IndexError:
+                # This will raise if the user hasn't got custon colours
+                return default_colour_data
+
+            colour_pos_lookup = [
+                "",
+                "background",
+                "foreground",
+                "btn_background",
+                "btn_active",
+                "negetive_btn_background",
+                "negetive_btn_active",
+                "positive_btn_background",
+                "positive_btn_active",
+                "font",
+                "title_font",
+                "subtitle_font"
+            ]
+
+            temp_colour_dict = {}
+
+            for pos, colour in enumerate(colour_data):
+                if pos == 0:
+                    continue
+                elif not verify_colour(str(colour)):
+                    temp_colour_dict[
+                        colour_pos_lookup[pos]] = default_colour_data[colour_pos_lookup[pos]]
+                else:
+                    temp_colour_dict[colour_pos_lookup[pos]] = str(
+                        colour).replace(" ", "")
 
             logging.info("Colour data set successfully")
 
-            return default_colour_data
+            return temp_colour_dict

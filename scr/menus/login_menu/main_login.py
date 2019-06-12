@@ -108,7 +108,7 @@ class LoginMenu(tkinter.Frame):  # pylint: disable=too-many-ancestors
                 self.top_parent,
                 self.user_input_fr.username_ent.get(),
                 self.colour_data
-            )
+            ).pack(fill=tkinter.BOTH, expand=True)
             self.destroy()
         else:
             self.title_fr.space_lbl.config(

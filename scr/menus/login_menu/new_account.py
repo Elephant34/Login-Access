@@ -257,6 +257,6 @@ class Buttons(tkinter.Frame):  # pylint: disable=too-many-ancestors
             self.username = str(self.parent.user_input_fr.username_ent.get())
             self.parent.destroy()
             main_menu.MainMenu(self.settings_path, self.top_parent,
-                               self.username, self.colour_data)
+                               self.username, self.colour_data).pack(fill=tkinter.BOTH, expand=True)
 
         return
