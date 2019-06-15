@@ -1,22 +1,23 @@
 '''
 Stores the main code for the login menu screen seen when the exe is run
 '''
+# Used to extract the colours
+import json
 # For the logging of key information
 import logging
 # For handeling GUI comands
 import tkinter
-# Used to extract the colours
-import json
+
+# For logging in
+from scr.account_handlers.login import check_login
 # To load the help menu
 from scr.menus.login_menu.login_help import Help
 # For loading the new account GUI
 from scr.menus.login_menu.new_account import NewAccountGUI
-# For creating the title
-from scr.menus.title import Title
-# For logging in
-from scr.account_handlers.login import check_login
 # Calls the main menu
 from scr.menus.main_menu import main_menu
+# For creating the title
+from scr.menus.title import Title
 
 
 class LoginMenu(tkinter.Frame):  # pylint: disable=too-many-ancestors

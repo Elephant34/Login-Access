@@ -5,10 +5,11 @@ Loads the GUI for the settings classes
 import logging
 # For the GUI
 import tkinter
-# for the hashing system API
-from scr.utilities.hashing.hash_api import Hash
+
 # For the title
 from scr.menus.title import Title
+# for the hashing system API
+from scr.utilities.hashing.hash_api import Hash
 
 HASH_API = Hash()
 

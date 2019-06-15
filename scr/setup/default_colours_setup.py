@@ -2,12 +2,12 @@
 Sets the default colours of the program in a json file
 These can be changed in the owner/admin menus
 '''
+# For writing the json to  file
+import json
 # To record a log of events
 import logging
 # To handel paths
 import pathlib
-# For writing the json to  file
-import json
 
 COLOUR_DEFAULTS = {
     "background": "#7eccf7",

@@ -7,8 +7,9 @@ import logging
 import pathlib
 # gets the current datetime string
 from datetime import datetime
+
 # Converts writen numbers into integers
-from scr.utilities.responses import text2int, Illegal_Word, YES_RESPONSES
+from scr.utilities.responses import YES_RESPONSES, Illegal_Word, text2int
 
 
 def log_setup():

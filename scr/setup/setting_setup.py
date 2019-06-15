@@ -5,12 +5,13 @@ Setup file for the settings storage
 import logging
 # Allows for path manipulation
 import pathlib
-# Gets the valid yes options
-from scr.utilities.responses import YES_RESPONSES
+
 # Sets up the main database
 from scr.setup.database_setup import database_setup
 # Sets up the default colours
 from scr.setup.default_colours_setup import set_default_colours
+# Gets the valid yes options
+from scr.utilities.responses import YES_RESPONSES
 
 
 def setting_setup():

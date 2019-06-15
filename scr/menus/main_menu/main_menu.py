@@ -1,27 +1,27 @@
 '''
 The main menu veiwed on login
 '''
-# For GUI construction
-import tkinter
 # For logging events
 import logging
 # For handeling the database
 import sqlite3
+# For GUI construction
+import tkinter
 # For spliting the string into a list
 from ast import literal_eval
+
+# For logging off
+from scr.menus.login_menu import main_login
+# For the help screen
+from scr.menus.main_menu import menu_help
+# For the settings
+from scr.menus.settings_menu import main_settings
 # For creating the title
 from scr.menus.title import Title
 # For hashing
 from scr.utilities.hashing.hash_api import Hash
 # Checks the colours are valid
 from scr.utilities.verify_colour import verify_colour
-# For logging off
-from scr.menus.login_menu import main_login
-# For the buttons to load other sections
-# For the help screen
-from scr.menus.main_menu import menu_help
-# For the settings
-from scr.menus.settings_menu import main_settings
 
 HASH_API = Hash()
 

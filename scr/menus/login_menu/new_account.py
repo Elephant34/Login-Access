@@ -3,18 +3,19 @@ Used to load the GUI for account creation
 It will then pass the values to the new acount functionality code for
 the account to be added
 '''
-# For the GUI
-import tkinter
 # For logging key enets
 import logging
-# To display the title
-from scr.menus.title import Title
-# TO go back to the main login screen
-from scr.menus.login_menu import main_login
+# For the GUI
+import tkinter
+
 # For account creation
 from scr.account_handlers.new_account import NewAccount
+# TO go back to the main login screen
+from scr.menus.login_menu import main_login
 # For loging the user in to the main menu
 from scr.menus.main_menu import main_menu
+# To display the title
+from scr.menus.title import Title
 
 
 class NewAccountGUI(tkinter.Frame):  # pylint: disable=too-many-ancestors

@@ -1,16 +1,17 @@
 '''
 Loads the help frame for the main menu
 '''
-# For the GUI
-import tkinter
 # for logging events
 import logging
+# For the GUI
+import tkinter
 # For opening the wiki
 import webbrowser
-# For title creation
-from scr.menus.title import Title
+
 # To take the user back to the main menu
 from scr.menus.main_menu import main_menu
+# For title creation
+from scr.menus.title import Title
 
 
 class Help(tkinter.Frame):  # pylint: disable=too-many-ancestors

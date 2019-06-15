@@ -4,14 +4,15 @@ This being run is what really starts the program
 '''
 # For logging values
 import logging
-# To handel the GUI widgets
-import tkinter
 # To contain the relevant path information
 import pathlib
-# Sets up the logging system to the right directory
-from scr.setup.log_setup import logging_quick_setup
+# To handel the GUI widgets
+import tkinter
+
 # To open the main login menu
 from scr.menus.login_menu.main_login import LoginMenu
+# Sets up the logging system to the right directory
+from scr.setup.log_setup import logging_quick_setup
 # To open the static files
 from scr.utilities.resource_path import resource_path
 

@@ -7,8 +7,9 @@ import logging
 import pathlib
 # Allows the program to call commands
 from os import system
+
 # Calls the setup code moduals
-from scr.setup import log_setup, setting_setup, owner_setup
+from scr.setup import log_setup, owner_setup, setting_setup
 
 VERSION = "Development"
 

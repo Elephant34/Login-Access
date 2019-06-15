@@ -1,10 +1,11 @@
 '''
 Tests if the username and password are valid
 '''
-# For reading the data off teh databse
-import sqlite3
 # For logging key events
 import logging
+# For reading the data off teh databse
+import sqlite3
+
 # For hashing the username and password
 from scr.utilities.hashing.hash_api import Hash
 

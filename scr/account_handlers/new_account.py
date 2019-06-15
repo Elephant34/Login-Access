@@ -1,12 +1,13 @@
 '''
 Validates the inputs from the account creation
 '''
-# For handeling the gui elements
-import tkinter
 # For logging key events
 import logging
 # For handeling the databse
 import sqlite3
+# For handeling the gui elements
+import tkinter
+
 # For hashing the usernames and passwords
 from scr.utilities.hashing.hash_api import Hash
 # For laoding the weak password list

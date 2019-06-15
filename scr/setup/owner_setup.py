@@ -5,9 +5,9 @@ Creates the primary owner account
 import logging
 # Allows for database manipulaton
 import sqlite3
+
 # Imports the hashing so the system never know the usersname or passwords given
 from scr.utilities.hashing.hash_api import Hash
-
 
 # Sets up the hashing class
 HASH_API = Hash()

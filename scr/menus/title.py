@@ -1,10 +1,10 @@
 '''
 Creates a title for the menu with a space underneath
 '''
-# For creating the GUI
-import tkinter
 # For logging key events
 import logging
+# For creating the GUI
+import tkinter
 
 
 class Title(tkinter.Frame):  # pylint: disable=too-many-ancestors
