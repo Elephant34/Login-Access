@@ -17,8 +17,11 @@ from scr.utilities.hashing.hash_api import Hash
 from scr.utilities.verify_colour import verify_colour
 # For logging off
 from scr.menus.login_menu import main_login
+# For the buttons to load other sections
 # For the help screen
 from scr.menus.main_menu import menu_help
+# For the settings
+from scr.menus.settings_menu import main_settings
 
 HASH_API = Hash()
 
@@ -220,6 +223,11 @@ class MainButtons(tkinter.Frame):  # pylint: disable=too-many-ancestors
             self.parent.destroy()
             menu_help.Help(self.username, self.settings_path, self.colour_data,
                            self.top_parent).pack(fill=tkinter.BOTH, expand=True)
+        elif button_pressed == "settings":
+            logging.info("Loading settings main menu")
+            self.parent.destroy()
+            main_settings.MainMenu(self.settings_path, self.top_parent,
+                                   self.username, self.colour_data).pack(fill=tkinter.BOTH, expand=True)
 
         return
 
