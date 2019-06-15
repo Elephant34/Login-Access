@@ -16,9 +16,17 @@ def database_setup(databse_path):
         cur.execute("""
             CREATE TABLE IF NOT EXISTS Users (
                 'Username' STRING PRIMARY KEY,
+                'Public Username' STRING,
                 'Password' STRING NOT NULL,
-                'Group' STRING NOT NULL,
-                'Created On' STRING DEFAULT CURRENT_TIMESTAMP
+                'Permissions_Group' STRING NOT NULL,
+                'Created_On' STRING DEFAULT CURRENT_TIMESTAMP
+            )
+        """)
+
+        cur.execute("""
+            CREATE TABLE IF NOT EXISTS Groups (
+                'Group_Name' STRING PRIMARY KEY,
+                'Permissions' STRING NOT NULL
             )
         """)
 

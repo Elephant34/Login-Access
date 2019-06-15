@@ -14,6 +14,9 @@ from scr.utilities.resource_path import resource_path
 
 HASH_API = Hash()
 
+# This is temperary until I get to the malable permissions section of the settings
+DEFAULT_GROUPS = "['tools', 'games', 'education']"
+
 
 class NewAccount():
     '''
@@ -62,7 +65,7 @@ class NewAccount():
             self.settings_path,
             HASH_API.hash_text(str(self.username_ent.get()), secure=False),
             HASH_API.hash_text(str(self.password_ent.get())),
-            HASH_API.hash_text("standered")
+            "default"
         )
         if account_callback != True:
             self.clear_inputs()
@@ -135,17 +138,23 @@ def create_account(settings_path, username, password, group):
     '''
     logging.info("Attempting account creation")
 
-    database_path = settings_path / "LoginAccess.db"
+    database_path = settings_path / "loginAccess.db"
 
     with sqlite3.connect(str(database_path)) as con:
         cur = con.cursor()
 
         try:
-            cur.execute("""INSERT INTO Users("Username", "Password", "Group") VALUES (?, ?, ?)""",
+            cur.execute("INSERT INTO Users(Username, Password, Permissions_Group) VALUES (?, ?, ?)",
                         (username, password, group))
         except sqlite3.IntegrityError:
             return "Username already exists"
         except sqlite3.OperationalError:
             return "Database is open in another program- please close it and try again"
+
+        try:
+            cur.execute("INSERT INTO Groups VALUES (?, ?)",
+                        (group, DEFAULT_GROUPS))
+        except sqlite3.IntegrityError:
+            pass
 
     return True

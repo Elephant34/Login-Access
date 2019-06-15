@@ -7,6 +7,8 @@ import tkinter
 import logging
 # For handeling the database
 import sqlite3
+# For spliting the string into a list
+from ast import literal_eval
 # For creating the title
 from scr.menus.title import Title
 # For hashing
@@ -15,8 +17,13 @@ from scr.utilities.hashing.hash_api import Hash
 from scr.utilities.verify_colour import verify_colour
 # For logging off
 from scr.menus.login_menu import main_login
+# For the help screen
+from scr.menus.main_menu import menu_help
 
 HASH_API = Hash()
+
+# Temperary until I sort out the groups setup propally
+ALL_GROUPS = ['tools', 'games', 'education', "admin", "owner"]
 
 
 class MainMenu(tkinter.Frame):  # pylint: disable=too-many-ancestors
@@ -49,8 +56,14 @@ class MainMenu(tkinter.Frame):  # pylint: disable=too-many-ancestors
         self.title_fr.pack(fill=tkinter.X, expand=True,
                            side=tkinter.TOP, padx=5, pady=1)
 
+        MainButtons(self.settings_path, self.username,
+                    self.colour_data, self, self.top_parent).pack(
+                        fill=tkinter.BOTH, expand=True, side=tkinter.TOP, padx=5, pady=2)
+
         BottomButtons(self.settings_path, self.top_parent, self.colour_data, self).pack(
             fill=tkinter.X, expand=True, side=tkinter.BOTTOM, padx=5, pady=2)
+
+        logging.info("Main menu GUI created successfully")
 
         return
 
@@ -128,7 +141,7 @@ class MainButtons(tkinter.Frame):  # pylint: disable=too-many-ancestors
     Loads all of the new account screens buttons
     '''
 
-    def __init__(self, settings_path, top_parent, colour_data, parent, *args, **kwargs):
+    def __init__(self, settings_path, username, colour_data, parent, top_parent, *args, **kwargs):  # pylint: disable=too-many-arguments
         '''
         Loads the button frame of the GUI
         '''
@@ -140,10 +153,75 @@ class MainButtons(tkinter.Frame):  # pylint: disable=too-many-ancestors
 
         self.settings_path = settings_path
 
-        self.top_parent = top_parent
         self.parent = parent
+        self.top_parent = top_parent
+
+        self.username = username
+
+        self.permissions = []
 
         self.config(bg=self.colour_data["background"])
+
+        self.user_group, self.permissions = self.get_group()
+
+        for permission in self.permissions:
+            tkinter.Button(self,
+                           text=permission.title(),
+                           bg=self.colour_data["btn_background"],
+                           activebackground=self.colour_data["btn_active"],
+                           fg=self.colour_data["foreground"],
+                           font=self.colour_data["font"],
+                           command=lambda button_pressed=permission: self.menu_option(
+                               button_pressed)
+                           ).pack(fill=tkinter.BOTH, side=tkinter.TOP, expand=True, padx=2, pady=2)  # pylint: disable=bad-continuation
+        tkinter.Label(self,
+                      text="",
+                      bg=self.colour_data["background"],
+                      fg=self.colour_data["foreground"],
+                      font=self.colour_data["font"],
+                      ).pack(fill=tkinter.BOTH, side=tkinter.TOP, expand=True, padx=2, pady=2)  # pylint: disable=bad-continuation
+
+    def get_group(self):
+        '''
+        Gets the group name and the group permissions
+        '''
+
+        with sqlite3.connect(str(self.settings_path / "loginAccess.db")) as con:
+            cur = con.cursor()
+
+            cur.execute("SELECT Permissions_Group FROM Users WHERE Username=?",
+                        (HASH_API.hash_text(self.username, secure=False), ))
+
+            group = cur.fetchall()[0][0]
+
+            cur.execute(
+                "SELECT Permissions FROM Groups WHERE Group_Name=?", (group, ))
+
+            if group == "owner":
+                permissions = ALL_GROUPS[:]
+            else:
+                # This is only temperary
+                permissions = literal_eval(cur.fetchall()[0][0])
+
+        permissions += ["settings", "help"]
+
+        logging.info("Got user permissions")
+
+        return group, permissions
+
+    def menu_option(self, button_pressed):
+        '''
+        runs the correct command relevant to the button pressed
+        '''
+        logging.info("Button press for %s", button_pressed)
+
+        if button_pressed == "help":
+            logging.info("Loading help screen")
+            self.parent.destroy()
+            menu_help.Help(self.username, self.settings_path, self.colour_data,
+                           self.top_parent).pack(fill=tkinter.BOTH, expand=True)
+
+        return
 
 
 class BottomButtons(tkinter.Frame):  # pylint: disable=too-many-ancestors
