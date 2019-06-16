@@ -227,7 +227,8 @@ class MainButtons(tkinter.Frame):  # pylint: disable=too-many-ancestors
             logging.info("Loading settings main menu")
             self.parent.destroy()
             main_settings.MainMenu(self.settings_path, self.top_parent,
-                                   self.username, self.colour_data).pack(fill=tkinter.BOTH, expand=True)
+                                   self.username, self.colour_data).pack(
+                                       fill=tkinter.BOTH, expand=True)
 
         return
 

@@ -27,10 +27,13 @@ def check_login(settings_path, username_ent, password_ent):
         try:
             user_password = cur.fetchall()[0][0]
         except IndexError:
+            logging.warning("Username doesn't exist")
             # Couldn't find a password with the username therefore the username doesn't exist
             return False
 
     if HASH_API.verify(str(password_ent.get()), user_password):
+        logging.info("Login successful")
         return True
 
+    logging.warning("Incorrect password entered")
     return False
