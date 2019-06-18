@@ -44,18 +44,21 @@ class MainMenu(tkinter.Frame):  # pylint: disable=too-many-ancestors
 
         self.top_parent = parent
 
+        self.settings_path = settings_path
+
         self.username = username
         self.username_hash = HASH_API.hash_text(self.username, secure=False)
 
-        self.settings_path = settings_path
+        self.public_username = self.get_public_username(
+            self.username_hash, self.username)
 
         self.colour_data = self.get_colour_data(colour_data)
 
         parent.config(bg=self.colour_data["background"])
         self.config(bg=self.colour_data["background"])
 
-        self.title_fr = Title("Welcome {}!".format(
-            self.username), self.colour_data, self)
+        self.title_fr = Title("Welcome {}:".format(
+            self.public_username), self.colour_data, self)
         self.title_fr.pack(fill=tkinter.X, expand=True,
                            side=tkinter.TOP, padx=5, pady=1)
 
@@ -76,7 +79,7 @@ class MainMenu(tkinter.Frame):  # pylint: disable=too-many-ancestors
         If no value exists the default will be used instead
         '''
 
-        with sqlite3.connect(str(self.settings_path / "LoginAccess.db")) as con:
+        with sqlite3.connect(str(self.settings_path / "loginAccess.db")) as con:
             cur = con.cursor()
 
             # Creats the table if it doesnt exist
@@ -137,6 +140,24 @@ class MainMenu(tkinter.Frame):  # pylint: disable=too-many-ancestors
             logging.info("Colour data set successfully")
 
             return temp_colour_dict
+
+    def get_public_username(self, username_hash, username):
+        '''
+        If it exists will get the users public username
+        '''
+
+        with sqlite3.connect(str(self.settings_path / "loginAccess.db")) as con:
+            cur = con.cursor()
+
+            cur.execute(
+                "SELECT Public_Username FROM Users WHERE Username = ?", (username_hash, ))
+
+            try:
+                public_username = str(cur.fetchall()[0][0])
+            except IndexError:
+                public_username = username
+
+        return public_username
 
 
 class MainButtons(tkinter.Frame):  # pylint: disable=too-many-ancestors
@@ -226,9 +247,9 @@ class MainButtons(tkinter.Frame):  # pylint: disable=too-many-ancestors
         elif button_pressed == "settings":
             logging.info("Loading settings main menu")
             self.parent.destroy()
-            main_settings.MainMenu(self.settings_path, self.top_parent,
-                                   self.username, self.colour_data).pack(
-                                       fill=tkinter.BOTH, expand=True)
+            main_settings.SettingsMenu(self.settings_path, self.top_parent,
+                                       self.username, self.colour_data).pack(
+                                           fill=tkinter.BOTH, expand=True)
 
         return
 

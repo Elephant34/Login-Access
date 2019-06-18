@@ -8,6 +8,8 @@ import tkinter
 
 # For going back to the main menu
 from scr.menus.main_menu import main_menu
+# For the account settings
+from scr.menus.settings_menu import account_settings
 # For the title
 from scr.menus.title import Title
 # for the hashing system API
@@ -16,7 +18,7 @@ from scr.utilities.hashing.hash_api import Hash
 HASH_API = Hash()
 
 
-class MainMenu(tkinter.Frame):  # pylint: disable=too-many-ancestors
+class SettingsMenu(tkinter.Frame):  # pylint: disable=too-many-ancestors
     '''
     The main settings menu
     '''
@@ -63,7 +65,7 @@ class Buttons(tkinter.Frame):  # pylint: disable=too-many-ancestors
         '''
         Loads the button frame of the GUI
         '''
-        logging.info("Loading main menu button section")
+        logging.info("Loading settings button section")
         # The the relevant frame methods
         tkinter.Frame.__init__(self, parent, *args, **kwargs)
 
@@ -115,6 +117,13 @@ class Buttons(tkinter.Frame):  # pylint: disable=too-many-ancestors
         Loads the menu based off the correct button pressed
         '''
         logging.info("Loading setting %s", button_pressed)
+
+        if button_pressed == "account settings":
+            logging.info("Loading account settings menu")
+            self.parent.destroy()
+            account_settings.AccountSettings(
+                self.settings_path, self.top_parent, self.username, self.colour_data).pack(
+                    fill=tkinter.BOTH, expand=True)
 
         return
 
