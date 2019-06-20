@@ -154,8 +154,11 @@ class MainMenu(tkinter.Frame):  # pylint: disable=too-many-ancestors
 
             try:
                 public_username = str(cur.fetchall()[0][0])
+                if public_username == "None":
+                    raise IndexError
             except IndexError:
                 public_username = username
+        print(public_username)
 
         return public_username
 
