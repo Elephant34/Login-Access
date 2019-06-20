@@ -7,6 +7,8 @@ import logging
 import tkinter
 # For databse handeling
 import sqlite3
+# For executing regualr expression
+import re
 
 # For going back to the main menu
 from scr.menus.settings_menu import main_settings
@@ -528,7 +530,16 @@ class ChangeEmailAdress(tkinter.Frame):  # pylint: disable=too-many-ancestors, t
         Chacks the new email is valid then changes the email
         '''
 
-        new_email = HASH_API.hash_text(str(self.email_ent.get()))
+        email = str(self.email_ent.get())
+
+        email_redex = r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)"
+        if not re.fullmatch(email_redex, email):
+            self.email_ent.delete(0, tkinter.END)
+            self.title_fr.space_lbl.config(
+                text="Invalid email adress please try again")
+            return
+
+        new_email = HASH_API.hash_text(email)
 
         with sqlite3.connect(str(self.settings_path / "loginAccess.db")) as con:
             cur = con.cursor()
@@ -538,6 +549,6 @@ class ChangeEmailAdress(tkinter.Frame):  # pylint: disable=too-many-ancestors, t
 
         self.email_ent.delete(0, tkinter.END)
         self.title_fr.space_lbl.config(
-            text="email changed sucessfully!")
+            text="Email changed sucessfully!")
 
         return
