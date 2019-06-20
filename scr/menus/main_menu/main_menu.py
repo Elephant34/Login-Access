@@ -26,7 +26,7 @@ from scr.utilities.verify_colour import verify_colour
 HASH_API = Hash()
 
 # Temperary until I sort out the groups setup propally
-ALL_GROUPS = ['tools', 'games', 'education', "admin", "owner"]
+ALL_PERMISSIONS = ['tools', 'games', 'education', "admin", "owner"]
 
 
 class MainMenu(tkinter.Frame):  # pylint: disable=too-many-ancestors
@@ -210,6 +210,8 @@ class MainButtons(tkinter.Frame):  # pylint: disable=too-many-ancestors
         Gets the group name and the group permissions
         '''
 
+        failed = False
+
         with sqlite3.connect(str(self.settings_path / "loginAccess.db")) as con:
             cur = con.cursor()
 
@@ -222,10 +224,23 @@ class MainButtons(tkinter.Frame):  # pylint: disable=too-many-ancestors
                 "SELECT Permissions FROM Groups WHERE Group_Name=?", (group, ))
 
             if group == "owner":
-                permissions = ALL_GROUPS[:]
-            else:
                 # This is only temperary
-                permissions = literal_eval(cur.fetchall()[0][0])
+                permissions = ALL_PERMISSIONS[:]
+            else:
+                try:
+                    permissions = literal_eval(cur.fetchall()[0][0])
+                except IndexError:
+                    # This means the group isn't recognised
+                    # Will set the group back to default
+                    cur.execute(
+                        "UPDATE Users SET Permissions_Group = 'default' WHERE Username=?",
+                        (HASH_API.hash_text(self.username, secure=False), ))
+                    failed = True
+
+        if failed:
+            # Runs get group again
+            group, permissions = self.get_group()
+            return group, permissions
 
         permissions += ["settings", "help"]
 
