@@ -124,10 +124,16 @@ class Buttons(tkinter.Frame):  # pylint: disable=too-many-ancestors
             ChangeUsername(
                 self.settings_path, self.top_parent, self.username, self.colour_data).pack(
                     fill=tkinter.BOTH, expand=True)
-        if button_pressed == "add public username":
+        elif button_pressed == "add public username":
             logging.info("Loading public username settings")
             self.parent.destroy()
             ChangePublicUsername(
+                self.settings_path, self.top_parent, self.username, self.colour_data).pack(
+                    fill=tkinter.BOTH, expand=True)
+        elif button_pressed == "add email adress":
+            logging.info("Loading email settings")
+            self.parent.destroy()
+            ChangeEmailAdress(
                 self.settings_path, self.top_parent, self.username, self.colour_data).pack(
                     fill=tkinter.BOTH, expand=True)
         return
@@ -408,3 +414,32 @@ class ChangePublicUsername(tkinter.Frame):  # pylint: disable=too-many-ancestors
             text="Username changed sucessfully!")
 
         return
+
+class ChangeEmailAdress(tkinter.Frame):  # pylint: disable=too-many-ancestors, too-many-instance-attributes
+    '''
+    Loads the frame for changing the username
+    '''
+
+    def __init__(self, settings_path, parent, username, colour_data, *args, **kwargs):
+        '''
+        Sets up the correct verables and loads the GUI
+        '''
+        logging.info("Change email manu loading")
+        # The the relevant frame methods
+        tkinter.Frame.__init__(self, parent, *args, **kwargs)
+
+        self.top_parent = parent
+
+        self.username = username
+        self.username_hash = HASH_API.hash_text(self.username, secure=False)
+
+        self.settings_path = settings_path
+
+        self.colour_data = colour_data
+
+        parent.config(bg=self.colour_data["background"])
+        self.config(bg=self.colour_data["background"])
+
+        self.title_fr = Title("Change Email Adress", self.colour_data, self)
+        self.title_fr.pack(fill=tkinter.X, expand=True,
+                           side=tkinter.TOP, padx=5, pady=1)
