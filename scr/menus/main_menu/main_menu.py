@@ -158,7 +158,6 @@ class MainMenu(tkinter.Frame):  # pylint: disable=too-many-ancestors
                     raise IndexError
             except IndexError:
                 public_username = username
-        print(public_username)
 
         return public_username
 
