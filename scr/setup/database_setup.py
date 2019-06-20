@@ -17,6 +17,7 @@ def database_setup(databse_path):
             CREATE TABLE IF NOT EXISTS Users (
                 'Username' STRING PRIMARY KEY,
                 'Public_Username' STRING,
+                'Email' STRING,
                 'Password' STRING NOT NULL,
                 'Permissions_Group' STRING NOT NULL,
                 'Created_On' STRING DEFAULT CURRENT_TIMESTAMP

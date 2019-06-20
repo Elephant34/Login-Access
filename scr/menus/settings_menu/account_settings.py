@@ -415,6 +415,7 @@ class ChangePublicUsername(tkinter.Frame):  # pylint: disable=too-many-ancestors
 
         return
 
+
 class ChangeEmailAdress(tkinter.Frame):  # pylint: disable=too-many-ancestors, too-many-instance-attributes
     '''
     Loads the frame for changing the username
@@ -443,3 +444,100 @@ class ChangeEmailAdress(tkinter.Frame):  # pylint: disable=too-many-ancestors, t
         self.title_fr = Title("Change Email Adress", self.colour_data, self)
         self.title_fr.pack(fill=tkinter.X, expand=True,
                            side=tkinter.TOP, padx=5, pady=1)
+
+        self.email_fr = tkinter.Frame(
+            self,
+            bg=self.colour_data["background"]
+        )
+        self.email_fr.pack(fill=tkinter.X, expand=True, side=tkinter.TOP, padx=3, pady=2)
+
+        # New email entry
+        tkinter.Label(
+            self.email_fr,
+            text="Email:",
+            bg=self.colour_data["background"],
+            fg=self.colour_data["foreground"],
+            font=self.colour_data["font"],
+            anchor=tkinter.CENTER
+        ).pack(fill=tkinter.BOTH, expand=True, side=tkinter.LEFT, padx=3, pady=2)
+
+        # email entry
+        self.email_ent = tkinter.Entry(
+            self.email_fr,
+            fg=self.colour_data["foreground"],
+            font=self.colour_data["font"],
+        )
+        self.email_ent.pack(
+            fill=tkinter.BOTH, expand=True, side=tkinter.RIGHT, padx=3, pady=2)
+
+        # Spacing label
+        tkinter.Label(
+            self,
+            text="",
+            bg=self.colour_data["background"],
+            fg=self.colour_data["foreground"],
+            font=self.colour_data["font"],
+            anchor=tkinter.CENTER
+        ).pack(fill=tkinter.BOTH, expand=True, side=tkinter.TOP, padx=3, pady=2)
+
+        self.button_fr = tkinter.Frame(
+            self,
+            bg=self.colour_data["background"]
+        )
+        self.button_fr.pack(fill=tkinter.X, expand=True,
+                            side=tkinter.TOP, padx=3, pady=2)
+
+        # Back button
+        tkinter.Button(
+            self.button_fr,
+            text="Back",
+            bg=self.colour_data["btn_background"],
+            activebackground=self.colour_data["btn_active"],
+            fg=self.colour_data["foreground"],
+            font=self.colour_data["font"],
+            command=lambda: self.back()  # pylint: disable=unnecessary-lambda
+        ).pack(fill=tkinter.BOTH, side=tkinter.LEFT, expand=True, padx=2, pady=2)
+
+        # Change email button
+        tkinter.Button(
+            self.button_fr,
+            text="Change Email",
+            bg=self.colour_data["positive_btn_background"],
+            activebackground=self.colour_data["positive_btn_active"],
+            fg=self.colour_data["foreground"],
+            font=self.colour_data["font"],
+            command=lambda: self.change_email()  # pylint: disable=unnecessary-lambda
+        ).pack(fill=tkinter.BOTH, side=tkinter.LEFT, expand=True, padx=2, pady=2)
+
+        self.email_ent.bind(
+            "<Return>", lambda e: self.change_email())
+
+    def back(self):
+        '''
+        Takes the user back to the login screen
+        '''
+        logging.info("Exiting the account settings menu")
+        self.destroy()
+        AccountSettings(self.settings_path, self.top_parent, self.username,
+                        self.colour_data).pack(fill=tkinter.BOTH, expand=True)
+
+        return
+
+    def change_email(self):
+        '''
+        Chacks the new email is valid then changes the email
+        '''
+
+        new_email = HASH_API.hash_text(str(self.email_ent.get()))
+
+        with sqlite3.connect(str(self.settings_path / "loginAccess.db")) as con:
+            cur = con.cursor()
+
+            cur.execute("UPDATE Users SET Email = ? WHERE Username = ?", (
+                new_email, self.username_hash))
+
+        self.email_ent.delete(0, tkinter.END)
+        self.title_fr.space_lbl.config(
+            text="email changed sucessfully!")
+
+        return
