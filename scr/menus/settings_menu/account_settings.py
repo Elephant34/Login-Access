@@ -279,6 +279,7 @@ class ChangeUsername(tkinter.Frame):  # pylint: disable=too-many-ancestors, too-
         self.title_fr.space_lbl.config(
             text="Username changed sucessfully!")
         self.username = new_username
+        self.username_hash = HASH_API.hash_text(self.username, secure=False)
 
 
 class ChangePublicUsername(tkinter.Frame):  # pylint: disable=too-many-ancestors, too-many-instance-attributes
